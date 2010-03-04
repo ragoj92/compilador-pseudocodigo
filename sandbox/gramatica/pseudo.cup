@@ -1,0 +1,66 @@
+package Pseudo;
+
+import java_cup.runtime.*;
+
+parser code {:
+public static void main(String args[]) throws Exception {
+	SymbolFactory sf = new DefaultSymbolFactory();
+	if (args.length==0) 
+		new parser(new Scanner(System.in,sf),sf).parse();
+	else 
+		new parser(new Scanner(new java.io.FileInputStream(args[0]),sf),sf).parse();
+	}
+
+:}
+
+
+non terminal algoritmo, decl_algoritmo, decl_variables, decl_const, decl_sentencias;
+
+programa ::=  decl_algoritmo  decl_variables  decl_const  decl_sentencias;
+
+decl_algoritmo ::= ALGORITMO IDENTIFICADOR;
+
+decl_variables ::= VAR lista_variables;
+
+decl_const ::= CONST lista_variables;
+
+lista_variables ::=  lista_identificadores DOSPUNTOS tipo_dato;
+
+lista_identificadores ::= IDENTIFICADOR COMA lista_identificadores 
+	| IDENTIFICADOR; 
+
+ident ::= var
+
+
+tipo_dato ::= ENTERO | REAL  | CARACTER | CADENA | LOGICO;
+
+decl_sentencias ::=  INICIO lista_sentencias FIN;
+
+lista_sentencias ::= sentencia lista_sentencias | {/*Vacio*/};
+
+sentencia ::=  	sent_expr 
+		| sent_sel
+		| sent_iter 
+		| error ;
+
+sent_expr ::= 	expr NUEVALINEA
+		|	NUEVALINEA;
+
+expr ::=  	var ASIGNACION expr
+	|	expr_simple;
+
+
+
+/*comentario ::= .... HACER*/
+
+
+
+
+stmt        : expr_stmt { $$ = $1; if(debug) printf("regla 14a -> stmt : expr_stmt\n");}
+            | cmpd_stmt { $$ = $1; if(debug) printf("regla 14b -> stmt : cmpd_stmt\n");}
+            | sel_stmt { $$ = $1; if(debug) printf("regla 14c -> stmt : sel_stmt\n");}
+            | iter_stmt  { $$ = $1; if(debug) printf("regla 14d -> stmt : iter_stmt\n");}
+            | return_stmt  { $$ = $1; if(debug) printf("regla 14e -> stmt : return_stmt\n");}
+            | error { $$ = NULL; if(debug) printf("regla 14f-> stmt : error\n");}
+
+
