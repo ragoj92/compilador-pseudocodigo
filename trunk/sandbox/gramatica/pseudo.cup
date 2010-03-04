@@ -20,16 +20,25 @@ programa ::=  decl_algoritmo  decl_variables  decl_const  decl_sentencias;
 
 decl_algoritmo ::= ALGORITMO IDENTIFICADOR;
 
-decl_variables ::= VAR lista_variables;
+decl_variables ::= VAR lista_declaraciones;
 
-decl_const ::= CONST lista_variables;
+decl_const ::= CONST lista_declaraciones;
 
-lista_variables ::=  lista_identificadores DOSPUNTOS tipo_dato;
+lista_declaraciones ::=	linea_decl lista_declaraciones
+			|	linea_decl;
 
-lista_identificadores ::= IDENTIFICADOR COMA lista_identificadores 
-	| IDENTIFICADOR; 
+linea_decl ::=  lista_identificadores DOSPUNTOS tipo_dato NUEVALINEA;
 
-ident ::= var
+
+lista_identificadores ::= decl_ident COMA lista_identificadores 
+	| decl_ident; 
+
+decl_ident ::= 	ident
+		|	ident CORCHIZQ tamano CORCHDER;
+
+tamano ::= NUM;
+
+ident ::= IDENTIFICADOR;
 
 
 tipo_dato ::= ENTERO | REAL  | CARACTER | CADENA | LOGICO;
@@ -41,18 +50,59 @@ lista_sentencias ::= sentencia lista_sentencias | {/*Vacio*/};
 sentencia ::=  	sent_expr 
 		| sent_sel
 		| sent_iter 
-		| error ;
+		| error 
+		;
 
 sent_expr ::= 	expr NUEVALINEA
-		|	NUEVALINEA;
+		|	NUEVALINEA
+		;
+
+sent_sel	::= SI
 
 expr ::=  	var ASIGNACION expr
-	|	expr_simple;
+	|	expr_simple
+	;
 
 
+var ::= 	ident 
+	|	ident CORCHIZQ expr CORCHDER
+	|	error
+	;
+
+expr_simple ::= expr_aritm oprel expr_aritm
+		  |	expr_aritm
+		  ;
+
+oprel	::= 	MENOR
+	|	MAYOR
+	|	MENORIGUAL
+	|	MAYORIGUAL
+	|	DIFERENTE
+	|	IGUAL
+	;
+
+expr_aritm ::= 	expr_aritm opsuma termino
+		|	termino
+		;
+
+opsuma	::=	SUMA
+		|	RESTA;
+
+termino	::=	termino opmulti	factor
+		|	factor
+		;
+
+opmulti	::=	MULTIPLI
+		|	DIVISION
+		;
+
+factor	::=	PARENTIZQ expr PARENTDER
+		|	var
+		|	NUM
+		;
 
 /*comentario ::= .... HACER*/
-
+/* añadir proced, funciones, sus llamadas. */
 
 
 
