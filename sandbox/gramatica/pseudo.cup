@@ -57,7 +57,13 @@ sent_expr ::= 	expr NUEVALINEA
 		|	NUEVALINEA
 		;
 
-sent_sel	::= SI
+sent_sel	::= 	SI PARENTIZQ expr_simple PARENTDER sentencia 
+		|	SI PARENTIZQ expr_simple PARENTDER sentencia SINO sentencia
+		;
+
+sent_iter	::=  /*Hacer los ciclos fijados en la especificacion*/
+
+		
 
 expr ::=  	var ASIGNACION expr
 	|	expr_simple
@@ -104,6 +110,7 @@ factor	::=	PARENTIZQ expr PARENTDER
 /*comentario ::= .... HACER*/
 /* añadir proced, funciones, sus llamadas. */
 
+/*Debo recordar que las sentencias son hijos de extrema izquierda con hermanos a la derecha*/
 
 
 stmt        : expr_stmt { $$ = $1; if(debug) printf("regla 14a -> stmt : expr_stmt\n");}
