@@ -13,8 +13,15 @@ public static void main(String args[]) throws Exception {
 
 :}
 
+terminal ALGORITMO, IDENTIFICADOR, VAR, CONST, DOSPUNTOS, NUEVALINEA, COMA, CORCHIZQ, CORCHDER, NUM, IDENTIFICADOR, ENTERO, REAL, CARACTER, CADENA;
+terminal LOGICO, INICIO, FIN, NUEVALINEA, SI, PARENTIZQ, PARENTDER, ENTONCES, SINO, PARA, DESDE, HASTA, MIENTRAS, REPITA, ASIGNACION, MENOR, MAYOR;
+terminal  MENORIGUAL, MAYORIGUAL, DIFERENTE, IGUAL, SUMA, RESTA, MULTIPLI, DIVISION;
 
-non terminal algoritmo, decl_algoritmo, decl_variables, decl_const, decl_sentencias;
+
+non terminal programa, decl_algoritmo, decl_variables, decl_const, lista_declaraciones ,linea_decl, lista_identificadores, decl_ident, tamano;
+non terminal ident, tipo_dato, decl_sentencias, lista_sentencias, sentencia, sent_expr, sent_sel, sent_iter, ciclo_para, ciclo_mientras;
+non terminal ciclo_hasta, expr, var, expr_simple, oprel, expr_aritm, opsuma, termino, opmulti, factor;
+
 
 programa ::=  decl_algoritmo  decl_variables  decl_const  decl_sentencias;
 
@@ -57,12 +64,23 @@ sent_expr ::= 	expr NUEVALINEA
 		|	NUEVALINEA
 		;
 
-sent_sel	::= 	SI PARENTIZQ expr_simple PARENTDER sentencia 
-		|	SI PARENTIZQ expr_simple PARENTDER sentencia SINO sentencia
+sent_sel	::= 	SI PARENTIZQ expr_simple PARENTDER ENTONCES sentencia 
+		|	SI PARENTIZQ expr_simple PARENTDER ENTONCES sentencia SINO sentencia
 		;
 
-sent_iter	::=  /*Hacer los ciclos fijados en la especificacion*/
+sent_iter	::=  	ciclo_para
+		|	ciclo_mientras
+		|	ciclo_hasta
+		;
 
+ciclo_para	::=	PARA var DESDE expr_aritm HASTA expr_aritm sent
+			;
+
+ciclo_mientras	::=	MIENTRAS PARENTIZQ expr_simple PARENTDER sentencia
+			;
+
+ciclo_hasta	::=	::=	REPITA sentencia HASTA expr_simple
+			;
 		
 
 expr ::=  	var ASIGNACION expr
