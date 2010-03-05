@@ -125,17 +125,11 @@ factor	::=	PARENTIZQ expr PARENTDER
 		|	NUM
 		;
 
-/*comentario ::= .... HACER*/
-/* añadir proced, funciones, sus llamadas. */
-
-/*Debo recordar que las sentencias son hijos de extrema izquierda con hermanos a la derecha*/
-
-
-stmt        : expr_stmt { $$ = $1; if(debug) printf("regla 14a -> stmt : expr_stmt\n");}
-            | cmpd_stmt { $$ = $1; if(debug) printf("regla 14b -> stmt : cmpd_stmt\n");}
-            | sel_stmt { $$ = $1; if(debug) printf("regla 14c -> stmt : sel_stmt\n");}
-            | iter_stmt  { $$ = $1; if(debug) printf("regla 14d -> stmt : iter_stmt\n");}
-            | return_stmt  { $$ = $1; if(debug) printf("regla 14e -> stmt : return_stmt\n");}
-            | error { $$ = NULL; if(debug) printf("regla 14f-> stmt : error\n");}
-
-
+/*
+TODO:
+1. Hacer comentarios.
+2. Añadir 
+3. Hacer procedimientos y funciones, y sus llamadas
+4. Añadir numero reales porque solo se contemplan los enteros
+5. Debo recordar hacer los bloque inicio/fin de las sentencias como hijos de extrema izquierda con hermanos a la derecha
+*/
